@@ -51,6 +51,17 @@
 </style>
 </head>
 <body>
+  <script>
+  // Ganti password di sini
+  var password = prompt("Masukkan password untuk mengakses:");
+
+  // Jika salah, redirect keluar
+  if(password !== "Chabendum25"){  // ganti "rahasia123" dengan passwordmu
+    alert("Password salah! Akses ditolak.");
+    window.location.href = "https://google.com"; // arahkan keluar
+  }
+</script>
+
 <header style="display: flex; align-items: center; justify-content: center; 
                background-color: white; color: #2c3e50; padding: 20px 40px; 
                border: 10px solid #2c3e50;">
@@ -754,3 +765,4 @@ initApp();
 
 </body>
 </html>
+

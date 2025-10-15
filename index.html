@@ -5,61 +5,222 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Aplikasi Bendahara Umum</title>
 <style>
-  body {font-family: Arial, sans-serif;margin:0;padding:0;background:#f4f6f9;}
-  header {background:#2c3e50;color:white;text-align:center;padding:1rem;}
-  .container {max-width:1200px;margin:20px auto;background:white;padding:20px;border-radius:10px;box-shadow:0 4px 6px rgba(0,0,0,0.1);}
-  h2 {margin-top:20px;margin-bottom:10px;}
-  form {display:flex;flex-wrap:wrap;gap:10px;margin-bottom:20px;}
-  form input, form select, form button {padding:10px;font-size:14px;}
-  form input, form select {flex:1;}
-  form button {background:#27ae60;color:white;border:none;cursor:pointer;border-radius:5px;}
-  form button:hover {background:#219150;}
-  table {width:100%;border-collapse:collapse;margin-top:10px;font-size:13px;}
-  th, td {border:1px solid #ccc;padding:6px;text-align:center;}
-  th {background:#34495e;color:white;}
-  .summary {display:flex;justify-content:space-between;margin-top:20px;flex-wrap:wrap;}
-  .card {flex:1;margin:10px;background:#ecf0f1;padding:15px;border-radius:10px;text-align:center;box-shadow:0 2px 4px rgba(0,0,0,0.1);}
-  .delete-btn {background:#e74c3c;color:white;border:none;padding:5px 10px;border-radius:5px;cursor:pointer;}
-  .delete-btn:hover {background:#c0392b;}
-  input[type=number]{width:100px;}
-  td input[type=checkbox]{width:20px;height:20px;}
-  td {white-space: nowrap;}
-  .muted {color:#666;font-size:13px;}
-.bottom-buttons {
-  margin-top: 30px;        /* jarak dari catatan */
-  display: flex;
-  justify-content: center; /* rata tengah */
-  gap: 15px;
-  padding: 10px;
-}
+  /* --- Gaya Dasar --- */
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f4f6f9;
+  }
 
-.bottom-buttons .btn {
-  padding: 10px 16px;
-  border: none;
-  border-radius: 6px;
-  background: #2c3e50;
-  color: white;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background 0.3s;
-}
+  header {
+    background: white;
+    color: #2c3e50;
+    padding: 15px;
+    border: 10px solid #2c3e50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap; /* agar logo dan teks menumpuk di HP */
+    text-align: center;
+  }
 
-.bottom-buttons .btn:hover {
-  background: #1a242f;
-}
+  header img {
+    height: 100px;
+    object-fit: contain;
+    border-radius: 5px;
+  }
 
-@media screen and (min-width: 968px) {
-    :root {
-        --big-font-size: 3rem;
-        --h1-font-size: 2.25rem;
-        --h2-font-size: 1.5rem;
-        --h3-font-size: 1.25rem;
-        --normal-font-size: 1rem;
-        --small-font-size: .875rem;
-        --smaller-font-size: .813rem;
+  header h1 {
+    margin: 5px 0;
+    font-size: 1.8rem;
+  }
+
+  header p {
+    margin: 0;
+    font-size: 0.9rem;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 20px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  }
+
+  h2 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+
+  /* --- Form --- */
+  form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  form input, form select, form button {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  form input, form select {
+    flex: 1;
+    min-width: 120px;
+  }
+
+  form button {
+    background: #27ae60;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.3s;
+  }
+
+  form button:hover {
+    background: #219150;
+  }
+
+  /* --- Tabel --- */
+  .table-container {
+    width: 100%;
+    overflow-x: auto; /* supaya tabel bisa discroll di HP */
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 13px;
+    min-width: 700px; /* agar tidak terlalu sempit */
+  }
+
+  th, td {
+    border: 1px solid #ccc;
+    padding: 6px;
+    text-align: center;
+  }
+
+  th {
+    background: #34495e;
+    color: white;
+  }
+
+  td input[type=checkbox] {
+    width: 18px;
+    height: 18px;
+  }
+
+  .muted {
+    color: #666;
+    font-size: 13px;
+  }
+
+  /* --- Kartu Ringkasan --- */
+  .summary {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .card {
+    flex: 1 1 200px;
+    margin: 5px;
+    background: #ecf0f1;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  /* --- Tombol Bawah --- */
+  .bottom-buttons {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 10px;
+  }
+
+  .bottom-buttons .btn {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    background: #2c3e50;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+
+  .bottom-buttons .btn:hover {
+    background: #1a242f;
+  }
+
+  /* --- Responsif --- */
+  @media (max-width: 768px) {
+    header img {
+      height: 70px;
     }
-}
-  
+
+    header h1 {
+      font-size: 1.4rem;
+    }
+
+    header p {
+      font-size: 0.85rem;
+    }
+
+    .container {
+      padding: 15px;
+      margin: 10px;
+    }
+
+    form {
+      flex-direction: column;
+    }
+
+    form input, form select, form button {
+      width: 100%;
+    }
+
+    .summary {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .card {
+      width: 100%;
+    }
+
+    .bottom-buttons {
+      flex-direction: column;
+    }
+
+    .bottom-buttons .btn {
+      width: 100%;
+    }
+  }
+
+  @media (min-width: 968px) {
+    :root {
+      --big-font-size: 3rem;
+      --h1-font-size: 2.25rem;
+      --h2-font-size: 1.5rem;
+      --h3-font-size: 1.25rem;
+      --normal-font-size: 1rem;
+      --small-font-size: .875rem;
+      --smaller-font-size: .813rem;
+    }
+  }
 </style>
 </head>
 <body>
@@ -777,5 +938,6 @@ initApp();
 
 </body>
 </html>
+
 
 

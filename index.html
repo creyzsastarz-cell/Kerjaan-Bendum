@@ -1,780 +1,1233 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Aplikasi Bendahara Umum</title>
-<style>
-  body {font-family: Arial, sans-serif;margin:0;padding:0;background:#f4f6f9;}
-  header {background:#2c3e50;color:white;text-align:center;padding:1rem;}
-  .container {max-width:1200px;margin:20px auto;background:white;padding:20px;border-radius:10px;box-shadow:0 4px 6px rgba(0,0,0,0.1);}
-  h2 {margin-top:20px;margin-bottom:10px;}
-  form {display:flex;flex-wrap:wrap;gap:10px;margin-bottom:20px;}
-  form input, form select, form button {padding:10px;font-size:14px;}
-  form input, form select {flex:1;}
-  form button {background:#27ae60;color:white;border:none;cursor:pointer;border-radius:5px;}
-  form button:hover {background:#219150;}
-  table {width:100%;border-collapse:collapse;margin-top:10px;font-size:13px;}
-  th, td {border:1px solid #ccc;padding:6px;text-align:center;}
-  th {background:#34495e;color:white;}
-  .summary {display:flex;justify-content:space-between;margin-top:20px;flex-wrap:wrap;}
-  .card {flex:1;margin:10px;background:#ecf0f1;padding:15px;border-radius:10px;text-align:center;box-shadow:0 2px 4px rgba(0,0,0,0.1);}
-  .delete-btn {background:#e74c3c;color:white;border:none;padding:5px 10px;border-radius:5px;cursor:pointer;}
-  .delete-btn:hover {background:#c0392b;}
-  input[type=number]{width:100px;}
-  td input[type=checkbox]{width:20px;height:20px;}
-  td {white-space: nowrap;}
-  .muted {color:#666;font-size:13px;}
-.bottom-buttons {
-  margin-top: 30px;        /* jarak dari catatan */
-  display: flex;
-  justify-content: center; /* rata tengah */
-  gap: 15px;
-  padding: 10px;
-}
-
-.bottom-buttons .btn {
-  padding: 10px 16px;
-  border: none;
-  border-radius: 6px;
-  background: #2c3e50;
-  color: white;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-.bottom-buttons .btn:hover {
-  background: #1a242f;
-}
-
-@media screen and (min-width: 968px) {
-    :root {
-        --big-font-size: 3rem;
-        --h1-font-size: 2.25rem;
-        --h2-font-size: 1.5rem;
-        --h3-font-size: 1.25rem;
-        --normal-font-size: 1rem;
-        --small-font-size: .875rem;
-        --smaller-font-size: .813rem;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aplikasi Bendahara Umum</title>
+  <style>
+    /* Reset & Base Styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
-}
-  
-</style>
+
+    :root {
+      --primary-color: #2c3e50;
+      --secondary-color: #27ae60;
+      --danger-color: #e74c3c;
+      --success-color: #27ae60;
+      --bg-color: #f4f6f9;
+      --card-bg: #ecf0f1;
+      --text-dark: #2c3e50;
+      --text-light: #666;
+      --border-color: #ccc;
+      --shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --border-radius: 10px;
+      --transition: all 0.3s ease;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: var(--bg-color);
+      color: var(--text-dark);
+      line-height: 1.6;
+    }
+
+    /* Header */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: white;
+      color: var(--primary-color);
+      padding: 15px 20px;
+      border: 10px solid var(--primary-color);
+      margin-bottom: 20px;
+    }
+
+    header > div {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 100%;
+      max-width: 1200px;
+    }
+
+    header img {
+      height: 80px;
+      width: auto;
+      object-fit: contain;
+      border-radius: 5px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+      text-align: center;
+    }
+
+    header p {
+      margin: 5px 0 0 0;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1200px;
+      margin: 20px auto;
+      background: white;
+      padding: 20px;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-lg);
+    }
+
+    /* Typography */
+    h2 {
+      margin-top: 30px;
+      margin-bottom: 15px;
+      color: var(--primary-color);
+      font-size: 22px;
+    }
+
+    h3 {
+      margin-top: 20px;
+      margin-bottom: 10px;
+      color: var(--primary-color);
+      font-size: 18px;
+    }
+
+    .muted {
+      color: var(--text-light);
+      font-size: 13px;
+      margin-top: 10px;
+    }
+
+    /* Forms */
+    form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    form input,
+    form select {
+      padding: 10px;
+      font-size: 14px;
+      border: 1px solid var(--border-color);
+      border-radius: 5px;
+      flex: 1;
+      min-width: 150px;
+    }
+
+    form button {
+      padding: 10px 20px;
+      font-size: 14px;
+      background: var(--secondary-color);
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+
+    form button:hover {
+      background: #219150;
+      transform: translateY(-1px);
+      box-shadow: var(--shadow);
+    }
+
+    /* Tables */
+    .table-wrapper {
+      overflow-x: auto;
+      margin: 15px 0;
+      border: 1px solid var(--border-color);
+      border-radius: 5px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      min-width: 600px;
+    }
+
+    th,
+    td {
+      border: 1px solid var(--border-color);
+      padding: 8px;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    th {
+      background: #34495e;
+      color: white;
+      font-weight: 600;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    tr:nth-child(even) {
+      background: #f9f9f9;
+    }
+
+    tr:hover {
+      background: #f0f0f0;
+    }
+
+    /* Table inputs */
+    input[type="number"] {
+      width: 100px;
+    }
+
+    input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+    }
+
+    /* Buttons */
+    .delete-btn {
+      background: var(--danger-color);
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 12px;
+      transition: var(--transition);
+    }
+
+    .delete-btn:hover {
+      background: #c0392b;
+      transform: translateY(-1px);
+    }
+
+    /* Summary Cards */
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      padding: 15px;
+      border-radius: var(--border-radius);
+      text-align: center;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .card h3 {
+      font-size: 14px;
+      margin: 0 0 10px 0;
+      color: var(--text-dark);
+    }
+
+    .card p {
+      font-size: 18px;
+      font-weight: bold;
+      color: var(--primary-color);
+      margin: 0;
+    }
+
+    /* Rekap Bulanan */
+    #rekap-bulanan {
+      margin-top: 20px;
+    }
+
+    #rekap-bulanan table {
+      margin-bottom: 20px;
+    }
+
+    /* Editable Name */
+    td[style*="cursor: pointer"] {
+      cursor: pointer;
+      color: #0066cc;
+      text-decoration: underline;
+      transition: var(--transition);
+    }
+
+    td[style*="cursor: pointer"]:hover {
+      color: #0052a3;
+    }
+
+    /* Bottom Buttons */
+    .bottom-buttons {
+      margin-top: 30px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      padding: 10px;
+      flex-wrap: wrap;
+    }
+
+    .bottom-buttons .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      background: var(--primary-color);
+      color: white;
+      font-size: 14px;
+      cursor: pointer;
+      transition: var(--transition);
+      min-width: 150px;
+    }
+
+    .bottom-buttons .btn:hover {
+      background: #1a242f;
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+
+    /* Mobile Responsive */
+    @media screen and (max-width: 768px) {
+      header {
+        padding: 10px;
+        border-width: 5px;
+      }
+
+      header > div {
+        gap: 8px;
+      }
+
+      header img {
+        height: 60px;
+      }
+
+      header h1 {
+        font-size: 18px;
+      }
+
+      header p {
+        font-size: 12px;
+      }
+
+      .container {
+        margin: 10px;
+        padding: 15px;
+        border-radius: 8px;
+      }
+
+      h2 {
+        font-size: 18px;
+        margin-top: 20px;
+        margin-bottom: 12px;
+      }
+
+      h3 {
+        font-size: 16px;
+      }
+
+      form {
+        flex-direction: column;
+      }
+
+      form input,
+      form select,
+      form button {
+        width: 100%;
+        min-width: unset;
+      }
+
+      .summary {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+
+      .card {
+        padding: 12px;
+      }
+
+      .card h3 {
+        font-size: 12px;
+      }
+
+      .card p {
+        font-size: 16px;
+      }
+
+      table {
+        font-size: 11px;
+      }
+
+      th,
+      td {
+        padding: 6px 4px;
+      }
+
+      .table-wrapper {
+        margin: 10px -15px;
+        border-left: none;
+        border-right: none;
+        border-radius: 0;
+      }
+
+      .bottom-buttons {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .bottom-buttons .btn {
+        width: 100%;
+        min-width: unset;
+      }
+
+      .delete-btn {
+        padding: 5px 10px;
+        font-size: 11px;
+      }
+    }
+
+    @media screen and (max-width: 480px) {
+      header img {
+        height: 50px;
+      }
+
+      header h1 {
+        font-size: 16px;
+      }
+
+      header p {
+        font-size: 11px;
+      }
+
+      .container {
+        margin: 5px;
+        padding: 10px;
+      }
+
+      h2 {
+        font-size: 16px;
+      }
+
+      .summary {
+        grid-template-columns: 1fr;
+      }
+
+      table {
+        font-size: 10px;
+        min-width: 500px;
+      }
+
+      th,
+      td {
+        padding: 4px 2px;
+      }
+
+      .card p {
+        font-size: 14px;
+      }
+    }
+
+    /* Print Styles */
+    @media print {
+      header {
+        border: 2px solid var(--primary-color);
+        page-break-after: avoid;
+      }
+
+      .bottom-buttons {
+        display: none;
+      }
+
+      form {
+        display: none;
+      }
+
+      .delete-btn {
+        display: none;
+      }
+    }
+
+    /* Loading State */
+    .loading {
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    /* Smooth Scrolling */
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
 </head>
 <body>
   <script>
-  // Ganti password di sini
-  var password = prompt("Masukkan password untuk mengakses:");
+    // Password Protection
+    var password = prompt("Masukkan password untuk mengakses:");
+    if (password !== "Chabendum25") {
+      alert("Password salah! Akses ditolak.");
+      window.location.href = "https://google.com";
+    }
+  </script>
 
-  // Jika salah, redirect keluar
-  if(password !== "Chabendum25"){  // ganti "rahasia123" dengan passwordmu
-    alert("Password salah! Akses ditolak.");
-    window.location.href = "https://google.com"; // arahkan keluar
-  }
-</script>
+  <header>
+    <div>
+      <img src="LogoUin.png" alt="Logo UIN" />
+      <div>
+        <h1>Kerjaan Bendahara Umum</h1>
+        <p>Kelola Pemasukan, Pengeluaran, Peminjaman, Anggaran & Kas Mingguan HMPS SI 2025</p>
+      </div>
+      <img src="LogoSi.png" alt="Logo HMPS SI" />
+    </div>
+  </header>
 
-<header style="display: flex; align-items: center; justify-content: center; 
-               background-color: white; color: #2c3e50; padding: 20px 40px; 
-               border: 10px solid #2c3e50;">
-  <div style="display: flex; align-items: center; gap: 15px;">
-    
-    <!-- Logo kiri -->
-    <img src="LogoUin.png" alt="Logo UIN" 
-         style="height: 100px; object-fit: contain; border-radius: 5px; align-self: center;">
+  <div class="container">
+    <!-- Form Tambah Transaksi -->
+    <h2>Tambah Transaksi</h2>
+    <form id="transaction-form">
+      <input type="text" id="deskripsi" placeholder="Deskripsi" required />
+      <input type="number" id="jumlah" placeholder="Jumlah (Rp)" required />
+      <select id="kategori">
+        <option value="pemasukan">Pemasukan</option>
+        <option value="pengeluaran">Pengeluaran</option>
+        <option value="peminjaman">Peminjaman</option>
+      </select>
+      <input type="date" id="tanggal" required />
+      <select id="bulan-transaksi">
+        <option value="Januari">Januari</option>
+        <option value="Februari">Februari</option>
+        <option value="Maret">Maret</option>
+        <option value="April">April</option>
+        <option value="Mei">Mei</option>
+        <option value="Juni">Juni</option>
+        <option value="Juli">Juli</option>
+        <option value="Agustus">Agustus</option>
+        <option value="September">September</option>
+        <option value="Oktober">Oktober</option>
+        <option value="November">November</option>
+        <option value="Desember">Desember</option>
+      </select>
+      <button type="submit">Tambah</button>
+    </form>
 
-    <!-- Teks header -->
-    <div style="text-align: center;">
-      <h1 style="margin: 0; font-size: 32px;">Kerjaan Bendahara Umum</h1>
-      <p style="margin: 5px 0 0 0; font-size: 16px;">
-        Kelola Pemasukan, Pengeluaran, Peminjaman, Anggaran & Kas Mingguan HMPS SI 2025
-      </p>
+    <!-- Riwayat Transaksi -->
+    <h2>Riwayat Transaksi</h2>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Bulan</th>
+            <th>Tanggal</th>
+            <th>Deskripsi</th>
+            <th>Kategori</th>
+            <th>Jumlah (Rp)</th>
+            <th>Aksi</th>
+          </tr>
+        </thead>
+        <tbody id="transaction-list"></tbody>
+      </table>
     </div>
 
-    <!-- Logo kanan -->
-    <img src="LogoSi.png" alt="Logo HMPS SI" 
-         style="height: 110px; object-fit: contain; border-radius: 5px; align-self: center;">
+    <!-- Summary Cards -->
+    <div class="summary">
+      <div class="card">
+        <h3>Total Pemasukan</h3>
+        <p id="total-pemasukan">Rp 0</p>
+      </div>
+      <div class="card">
+        <h3>Total Pengeluaran</h3>
+        <p id="total-pengeluaran">Rp 0</p>
+      </div>
+      <div class="card">
+        <h3>Total Peminjaman</h3>
+        <p id="total-peminjaman">Rp 0</p>
+      </div>
+      <div class="card">
+        <h3>Saldo Akhir</h3>
+        <p id="saldo-akhir">Rp 0</p>
+      </div>
+      <div class="card">
+        <h3>Saldo Uang Kas</h3>
+        <p id="saldo-uang-kas">Rp 0</p>
+      </div>
+    </div>
+
+    <!-- Rekap Bulanan -->
+    <h2>Rekap Bulanan (Januari - Desember)</h2>
+    <div id="rekap-bulanan"></div>
+
+    <!-- Pembayaran Uang Kas Mingguan -->
+    <h2>Pembayaran Uang Kas Mingguan (38 Orang, April - Desember 2025)</h2>
+    <div class="table-wrapper">
+      <table>
+        <thead id="kas-header"></thead>
+        <tbody id="kas-list"></tbody>
+      </table>
+    </div>
+
+    <!-- Form Tambah Pemakaian Kas -->
+    <h3>Tambah Pemakaian Kas</h3>
+    <form id="kas-usage-form">
+      <input type="date" id="kas-tanggal" required />
+      <input type="text" id="kas-deskripsi" placeholder="Deskripsi" required />
+      <input type="number" id="kas-jumlah" placeholder="Jumlah (Rp)" required />
+      <button type="submit">Tambah Pemakaian</button>
+    </form>
+
+    <!-- Riwayat Uang Kas -->
+    <h3>Riwayat Uang Kas</h3>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Tanggal</th>
+            <th>Jenis</th>
+            <th>Deskripsi</th>
+            <th>Jumlah (Rp)</th>
+            <th>Saldo Kas</th>
+            <th>Aksi</th>
+          </tr>
+        </thead>
+        <tbody id="riwayat-kas"></tbody>
+      </table>
+    </div>
+    <p class="muted">Catatan: total per minggu di-set Rp 1.000, Ubah sesuai kebutuhan.</p>
   </div>
-</header>
 
-
-<div class="container">
-  <h2>Tambah Transaksi</h2>
-  <form id="transaction-form">
-    <input type="text" id="deskripsi" placeholder="Deskripsi" required>
-    <input type="number" id="jumlah" placeholder="Jumlah (Rp)" required>
-    <select id="kategori">
-      <option value="pemasukan">Pemasukan</option>
-      <option value="pengeluaran">Pengeluaran</option>
-      <option value="peminjaman">Peminjaman</option>
-    </select>
-    <input type="date" id="tanggal" required>
-    <select id="bulan-transaksi">
-      <option value="Januari">Januari</option>
-      <option value="Februari">Februari</option>
-      <option value="Maret">Maret</option>
-      <option value="April">April</option>
-      <option value="Mei">Mei</option>
-      <option value="Juni">Juni</option>
-      <option value="Juli">Juli</option>
-      <option value="Agustus">Agustus</option>
-      <option value="September">September</option>
-      <option value="Oktober">Oktober</option>
-      <option value="November">November</option>
-      <option value="Desember">Desember</option>
-    </select>
-    <button type="submit">Tambah</button>
-  </form>
-
-  <h2>Riwayat Transaksi</h2>
-  <table>
-    <thead>
-      <tr>
-          <th>Bulan</th>
-          <th>Tanggal</th>
-          <th>Deskripsi</th>
-          <th>Kategori</th>
-          <th>Jumlah (Rp)</th>
-          <th>Aksi</th>
-      </tr>
-    </thead>
-    <tbody id="transaction-list"></tbody>
-  </table>
-
-  <div class="summary">
-    <div class="card"><h3>Total Pemasukan</h3><p id="total-pemasukan">Rp 0</p></div>
-    <div class="card"><h3>Total Pengeluaran</h3><p id="total-pengeluaran">Rp 0</p></div>
-    <div class="card"><h3>Total Peminjaman</h3><p id="total-peminjaman">Rp 0</p></div>
-    <div class="card"><h3>Saldo Akhir</h3><p id="saldo-akhir">Rp 0</p></div>
-    <div class="card"><h3>Saldo Uang Kas</h3><p id="saldo-uang-kas">Rp 0</p></div>
+  <!-- Bottom Action Buttons -->
+  <div class="bottom-buttons">
+    <button class="btn" onclick="tesFirestore()">Simpan Database</button>
+    <button class="btn" onclick="simpanKas()">Simpan Kas</button>
+    <button class="btn" onclick="generateAnggota()">Generate 38 Anggota</button>
   </div>
 
-  <h2>Rekap Bulanan (Januari - Desember)</h2>
-  <div id="rekap-bulanan"></div>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+    import {
+      getFirestore,
+      collection,
+      addDoc,
+      getDocs,
+      query,
+      orderBy,
+      deleteDoc,
+      doc,
+      setDoc,
+      updateDoc
+    } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
-  <h2>Pembayaran Uang Kas Mingguan (38 Orang, April - Desember 2025)</h2>
-  <table>
-    <thead id="kas-header"></thead>
-    <tbody id="kas-list"></tbody>
-  </table>
+    // Firebase Configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyBwU3TJ_9TfNT1wBs6taFsGtfGJ0iRyAFc",
+      authDomain: "cha-project-f8997.firebaseapp.com",
+      projectId: "cha-project-f8997",
+      storageBucket: "cha-project-f8997.appspot.com",
+      messagingSenderId: "1002188011351",
+      appId: "1:1002188011351:web:0611d96d68071caa62b012",
+      measurementId: "G-QN4S9EZB05"
+    };
 
-  <h3>Tambah Pemakaian Kas</h3>
-  <form id="kas-usage-form">
-    <input type="date" id="kas-tanggal" required>
-    <input type="text" id="kas-deskripsi" placeholder="Deskripsi" required>
-    <input type="number" id="kas-jumlah" placeholder="Jumlah (Rp)" required>
-    <button type="submit">Tambah Pemakaian</button>
-  </form>
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-  <h3>Riwayat Uang Kas</h3>
-  <table>
-    <thead>
-      <tr>
-        <th>Tanggal</th>
-        <th>Jenis</th>
-        <th>Deskripsi</th>
-        <th>Jumlah (Rp)</th>
-        <th>Saldo Kas</th>
-        <th>Aksi</th>
-      </tr>
-    </thead>
-    <tbody id="riwayat-kas"></tbody>
-  </table>
-  <p class="muted">Catatan: total per minggu di-set Rp 1.000, Ubah sesuai kebutuhan.</p>
-</div>
-
-<div class="bottom-buttons">
-  <button class="btn" onclick="tesFirestore()">Simpan Database</button>
-  <button class="btn" onclick="simpanKas()">Simpan Kas</button>
-  <button class="btn" onclick="generateAnggota()">Generate 38 Anggota</button>
-</div>
-
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, query, orderBy, deleteDoc, doc, setDoc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
-
-// --- Konfigurasi Firebase (cek kembali jika perlu) ---
-const firebaseConfig = {
-  apiKey: "AIzaSyBwU3TJ_9TfNT1wBs6taFsGtfGJ0iRyAFc",
-  authDomain: "cha-project-f8997.firebaseapp.com",
-  projectId: "cha-project-f8997",
-  storageBucket: "cha-project-f8997.appspot.com",
-  messagingSenderId: "1002188011351",
-  appId: "1:1002188011351:web:0611d96d68071caa62b012",
-  measurementId: "G-QN4S9EZB05"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-window.tesFirestore = async function () {
-    try {
-      const docRef = await addDoc(collection(db, "testCollection"), {
-        nama: "Tes Simpan",
-        waktu: new Date()
-      });
-      alert("Data tersimpan dengan ID: " + docRef.id);
-    } catch (e) {
-      console.error("Error menulis dokumen: ", e);
-    }
-  };
-
-window.simpanKas = async function () {
-  try {
-    const nomor = 1; // ganti sesuai anggota
-    const minggu = [true, false, true, false]; // contoh
-    const totalBayar = minggu.filter(Boolean).length * PAYMENT_PER_WEEK;
-
-    // lebih baik gunakan setDoc dengan id stabil agar predictable:
-    const docId = `anggota_${nomor}`;
-    await setDoc(doc(db, "kas2025", docId), {
-      nama: `Anggota ${nomor}`,
-      nomor,
-      minggu,
-      totalBayar
-    }, { merge: true });
-
-    alert("Data kas anggota tersimpan / diupdate dengan ID: " + docId);
-  } catch (e) {
-    console.error("Error simpan kas: ", e);
-  }
-};
-
-
-// --- Helpers & constants ---
-const sabtu2025 = {
-  "April":[5,12,19,26],"Mei":[3,10,17,24,31],"Juni":[7,14,21,28],
-  "Juli":[5,12,19,26],"Agustus":[2,9,16,23,30],"September":[6,13,20,27],
-  "Oktober":[4,11,18,25],"November":[1,8,15,22,29],"Desember":[6,13,20,27]
-};
-const totalWeeks = Object.values(sabtu2025).flat().length;
-const PAYMENT_PER_WEEK = 1000; // sesuaikan jika mau
-
-// default 38 anggota (dipakai ketika DB kosong)
-const defaultKas = Array.from({length:38},(_,i)=>({
-  nama:`Anggota ${i+1}`,
-  minggu: Array(totalWeeks).fill(false)
-}));
-
-// --- Firebase CRUD (dengan handling tipe) ---
-async function tambahTransaksiFirebase(transaksi){
-  try {
-    const data = {...transaksi, createdAt:new Date().toISOString()};
-    const docRef = await addDoc(collection(db,"transactions"), data);
-    return docRef.id;
-  } catch(err){ console.error("tambahTransaksiFirebase:", err); throw err; }
-}
-
-async function loadTransaksiFirebase(){
-  try {
-    const q = query(collection(db,"transactions"), orderBy("createdAt","desc"));
-    const snapshot = await getDocs(q);
-    return snapshot.docs.map(d=>{
-      const data = d.data() || {};
-      // pastikan jumlah berjenis number
-      return {
-        id: d.id,
-        deskripsi: data.deskripsi || '',
-        jumlah: (typeof data.jumlah === 'string') ? parseFloat(data.jumlah) : (data.jumlah || 0),
-        kategori: data.kategori || '',
-        bulan: data.bulan || '',
-        tanggal: data.tanggal || '',
-        createdAt: data.createdAt || ''
-      };
-    });
-  } catch(err){ console.error("loadTransaksiFirebase:", err); return []; }
-}
-
-async function hapusTransaksiFirebase(id){
-  try {
-    await deleteDoc(doc(db,"transactions",id));
-  } catch(err){ console.error("hapusTransaksiFirebase:", err); throw err; }
-}
-
-// Kas
-async function loadKasFirebase(){
-  try {
-    const q = query(collection(db,"kas2025"), orderBy("nomor","asc"));
-    const snapshot = await getDocs(q);
-    if(snapshot.empty){
-      return []; // kosong beneran
-    }
-    return snapshot.docs.map((d, index)=>{
-      const data = d.data() || {};
-      const mingguArr = Array.isArray(data.minggu)
-        ? data.minggu.map(v => !!v)
-        : Array(totalWeeks).fill(false);
-
-      return {
-        id: d.id,
-        nomor: data.nomor || (index+1),
-        nama: data.nama || `Anggota ${index+1}`,
-        minggu: mingguArr,
-        totalBayar: typeof data.totalBayar === "number"
-                     ? data.totalBayar
-                     : mingguArr.filter(Boolean).length * PAYMENT_PER_WEEK
-      };
-    });
-  } catch(err){
-    console.error("loadKasFirebase:", err);
-    return [];
-  }
-}
-
-async function updateKasFirebase(id, minggu, nama, nomor){
-  try {
-    const mingguFix = Array.isArray(minggu) ? minggu.map(v => !!v) : Array(totalWeeks).fill(false);
-    const totalBayar = mingguFix.filter(Boolean).length * PAYMENT_PER_WEEK;
-
-    await setDoc(doc(db, "kas2025", id), {
-      minggu: mingguFix,
-      totalBayar,
-      nama,
-      nomor
-    }); // ⬅ tidak pakai merge, langsung replace full doc
-    console.log("updateKasFirebase: updated", id, {minggu: mingguFix, totalBayar, nama, nomor});
-  } catch(err){
-    console.error("updateKasFirebase gagal:", err);
-    throw err;
-  }
-}
-
-async function updateNamaKasFirebase(id, nama){
-  try {
-    await setDoc(doc(db,"kas2025",id), {nama}, {merge:true});
-  } catch(err){ console.error("updateNamaKasFirebase:", err); throw err; }
-}
-
-// Riwayat kas
-async function tambahRiwayatKasFirebase(kas){
-  try {
-    const docRef = await addDoc(collection(db, "riwayatKas"), {...kas, createdAt: new Date().toISOString()});
-    return docRef.id;
-  } catch(err){ console.error("tambahRiwayatKasFirebase:", err); throw err; }
-}
-
-async function loadRiwayatKasFirebase(){
-  try {
-    const q = query(collection(db,"riwayatKas"), orderBy("createdAt","asc"));
-    const snapshot = await getDocs(q);
-    return snapshot.docs.map(d=>{
-      const data = d.data() || {};
-      return {
-        id: d.id,
-        tanggal: data.tanggal || '',
-        deskripsi: data.deskripsi || '',
-        jumlah: (typeof data.jumlah === 'string') ? parseFloat(data.jumlah) : (data.jumlah || 0),
-        createdAt: data.createdAt || ''
-      };
-    });
-  } catch(err){ console.error("loadRiwayatKasFirebase:", err); return []; }
-}
-
-async function hapusRiwayatKasFirebase(id){
-  try {
-    await deleteDoc(doc(db,"riwayatKas",id));
-  } catch(err){ console.error("hapusRiwayatKasFirebase:", err); throw err; }
-}
-
-// --- App state ---
-const transactionForm = document.getElementById('transaction-form');
-const transactionList = document.getElementById('transaction-list');
-const totalPemasukan = document.getElementById('total-pemasukan');
-const totalPengeluaran = document.getElementById('total-pengeluaran');
-const totalPeminjaman = document.getElementById('total-peminjaman');
-const saldoAkhir = document.getElementById('saldo-akhir');
-const saldoUangKas = document.getElementById('saldo-uang-kas');
-
-let transactions = [];
-let kasData = [];      // akan berisi objek {id,nama,minggu[]}
-let kasUsage = [];     // riwayat pemakaian kas
-
-// --- Utility ---
-function getTotalKas(){
-  let total=0;
-  kasData.forEach(a=>{
-    if(Array.isArray(a.minggu)){
-      a.minggu.forEach(p => { if(p) total += PAYMENT_PER_WEEK; });
-    }
-  });
-  return total;
-}
-
-// --- Render / UI ---
-function renderTransactions(){
-  transactionList.innerHTML = '';
-
-  if(!transactions || transactions.length === 0){
-    const tr = document.createElement('tr');
-    tr.innerHTML = `<td colspan="6">Belum ada transaksi.</td>`;
-    transactionList.appendChild(tr);
-  } else {
-    let pemasukan=0, pengeluaran=0, peminjaman=0;
-    transactions.forEach(t=>{
-      const row = document.createElement('tr');
-      const jumlahNum = Number(t.jumlah) || 0;
-      row.innerHTML = `
-        <td>${t.bulan || '-'}</td>
-        <td>${t.tanggal || '-'}</td>
-        <td>${t.deskripsi || '-'}</td>
-        <td>${t.kategori || '-'}</td>
-        <td>Rp ${jumlahNum.toLocaleString()}</td>
-        <td><button class="delete-btn" data-id="${t.id || ''}">Hapus</button></td>
-      `;
-      const btn = row.querySelector('.delete-btn');
-      btn.addEventListener('click', async ()=> {
-        const id = btn.getAttribute('data-id');
-        if(!id){
-          // jika belum punya id (tidak disimpan di firebase), hapus dari array lokal
-          const idx = transactions.indexOf(t);
-          if(idx>-1) transactions.splice(idx,1);
-          renderTransactions();
-          return;
-        }
-        if(confirm('Hapus transaksi ini?')){
-          await deleteTransactionById(id);
-        }
-      });
-
-      transactionList.appendChild(row);
-
-      if(t.kategori==="pemasukan") pemasukan += jumlahNum;
-      if(t.kategori==="pengeluaran") pengeluaran += jumlahNum;
-      if(t.kategori==="peminjaman") peminjaman += jumlahNum;
-    });
-
-    totalPemasukan.textContent = `Rp ${pemasukan.toLocaleString()}`;
-    totalPengeluaran.textContent = `Rp ${pengeluaran.toLocaleString()}`;
-    totalPeminjaman.textContent = `Rp ${peminjaman.toLocaleString()}`;
-    saldoAkhir.textContent = `Rp ${(pemasukan - pengeluaran - peminjaman).toLocaleString()}`;
-  }
-
-  // selalu update saldo kas dari kasData
-  saldoUangKas.textContent = `Rp ${getTotalKas().toLocaleString()}`;
-
-  // update rekap & riwayat
-  renderRekapBulanan();
-}
-
-async function deleteTransactionById(id){
-  try {
-    await hapusTransaksiFirebase(id);
-  } catch(err){
-    console.error(err);
-    alert('Gagal menghapus transaksi di server. Cek console.');
-  }
-  const idx = transactions.findIndex(t => t.id === id);
-  if(idx>-1) transactions.splice(idx,1);
-  renderTransactions();
-}
-
-function renderRekapBulanan(){
-  const container = document.getElementById('rekap-bulanan');
-  container.innerHTML = '';
-  let saldo = 0;
-  const bulanListFull=["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
-  bulanListFull.forEach(bulan=>{
-    const table=document.createElement('table');
-    table.style.marginBottom = '10px';
-    table.innerHTML=`
-      <thead>
-        <tr><th colspan="5">${bulan}</th></tr>
-        <tr>
-          <th>Tanggal</th><th>Deskripsi</th><th>Kategori</th><th>Jumlah (Rp)</th><th>Saldo Akhir</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    `;
-    const tbody=table.querySelector('tbody');
-    const transBulan=transactions.filter(t=>t.bulan===bulan).sort((a,b)=>new Date(a.tanggal)-new Date(b.tanggal));
-    if(transBulan.length===0){
-      const tr = document.createElement('tr');
-      tr.innerHTML = `<td colspan="5">Tidak ada transaksi.</td>`;
-      tbody.appendChild(tr);
-    } else {
-      transBulan.forEach(t=>{
-        const jumlahNum = Number(t.jumlah) || 0;
-        if(t.kategori==='pemasukan') saldo += jumlahNum;
-        if(t.kategori==='pengeluaran') saldo -= jumlahNum;
-        if(t.kategori==='peminjaman') saldo -= jumlahNum;
-        const row=document.createElement('tr');
-        row.innerHTML=`
-          <td>${t.tanggal || '-'}</td>
-          <td>${t.deskripsi || '-'}</td>
-          <td>${t.kategori || '-'}</td>
-          <td>Rp ${jumlahNum.toLocaleString()}</td>
-          <td>Rp ${saldo.toLocaleString()}</td>
-        `;
-        tbody.appendChild(row);
-      });
-    }
-    container.appendChild(table);
-  });
-}
-
-const kasHeader = document.getElementById('kas-header');
-const kasList = document.getElementById('kas-list');
-
-function buildKasHeader(){
-  let headerRow = '<tr><th>Nama</th>';
-  Object.keys(sabtu2025).forEach(b => sabtu2025[b].forEach(tgl => headerRow += `<th>${b} ${tgl}</th>`));
-  headerRow += '<th>Total Bayar (Rp)</th></tr>';
-  kasHeader.innerHTML = headerRow;
-}
-
-function renderKas(){
-  kasList.innerHTML = '';
-  buildKasHeader();
-
-  if(!kasData || kasData.length===0){
-    // tampilkan 38 baris default kalau mau (atau pesan)
-    defaultKas.forEach((anggota, idx) => {
-      const rowElement = document.createElement('tr');
-      rowElement.innerHTML = `<td>${anggota.nama}</td>` + anggota.minggu.map(()=>`<td><input type="checkbox" disabled></td>`).join('') + `<td>Rp 0</td>`;
-      kasList.appendChild(rowElement);
-    });
-    return;
-  }
-
-  kasData.forEach((anggota, idx) => {
-    const rowElement = document.createElement('tr');
-
-    // nama (editable)
-    const namaCell = document.createElement('td');
-    namaCell.textContent = anggota.nama || `Anggota ${idx+1}`;
-    namaCell.style.cursor = "pointer";
-    namaCell.style.color = "blue";
-    namaCell.style.textDecoration = "underline";
-    namaCell.addEventListener('click', async () => {
-      const namaBaru = prompt("Masukkan nama baru:", anggota.nama);
-      if (namaBaru && namaBaru.trim() !== "") {
-        anggota.nama = namaBaru.trim();
-        // simpan ke firebase jika punya id
-        if(anggota.id){
-          try {
-            await updateNamaKasFirebase(anggota.id, anggota.nama);
-          } catch(err){
-            console.error(err);
-            alert('Gagal menyimpan nama ke server. Cek console.');
-          }
-        }
-        renderKas();
+    // Test Firestore
+    window.tesFirestore = async function () {
+      try {
+        const docRef = await addDoc(collection(db, "testCollection"), {
+          nama: "Tes Simpan",
+          waktu: new Date()
+        });
+        alert("Data tersimpan dengan ID: " + docRef.id);
+      } catch (e) {
+        console.error("Error menulis dokumen: ", e);
+        alert("Error: " + e.message);
       }
-    });
-    rowElement.appendChild(namaCell);
+    };
 
-    // checkbox per minggu
-    let total = 0;
-    const mingguArr = Array.isArray(anggota.minggu) ? anggota.minggu : Array(totalWeeks).fill(false);
-    mingguArr.forEach((paid, mIdx) => {
-      const cell = document.createElement('td');
-      const checkbox = document.createElement('input');
-      checkbox.type = 'checkbox';
-      checkbox.checked = !!paid;
+    // Simpan Kas
+    window.simpanKas = async function () {
+      try {
+        const nomor = 1;
+        const minggu = [true, false, true, false];
+        const totalBayar = minggu.filter(Boolean).length * PAYMENT_PER_WEEK;
+        const docId = `anggota_${nomor}`;
+        await setDoc(doc(db, "kas2025", docId), {
+          nama: `Anggota ${nomor}`,
+          nomor,
+          minggu,
+          totalBayar
+        }, { merge: true });
+        alert("Data kas anggota tersimpan / diupdate dengan ID: " + docId);
+      } catch (e) {
+        console.error("Error simpan kas: ", e);
+        alert("Error: " + e.message);
+      }
+    };
 
-    checkbox.addEventListener('change', async (e) => {
-  const checked = !!e.target.checked;
-  // optimistic update
-  kasData[idx].minggu[mIdx] = checked;
-  checkbox.disabled = true;
+    // Generate Anggota
+    window.generateAnggota = async function () {
+      try {
+        const confirmMsg = "Generate 38 anggota default? (Jika sudah ada data akan direset)";
+        if (!confirm(confirmMsg)) return;
 
-  try {
-    const mingguFix = kasData[idx].minggu.map(v => !!v);
-    const nomorVal = kasData[idx].nomor || (idx+1);
-    const namaVal = kasData[idx].nama || `Anggota ${nomorVal}`;
-    const totalBayar = mingguFix.filter(Boolean).length * PAYMENT_PER_WEEK;
-
-    if (kasData[idx].id) {
-      console.log('Saving to firestore:', kasData[idx].id, {minggu: mingguFix, totalBayar, nama: namaVal, nomor: nomorVal});
-      await updateKasFirebase(kasData[idx].id, mingguFix, namaVal, nomorVal);
-      console.log('Saved successfully');
-    } else {
-      const docId = `anggota_${nomorVal}`;
-      console.log('Doc tanpa id, buat baru:', docId);
-      await setDoc(doc(db,"kas2025",docId), {
-        minggu: mingguFix,
-        nama: namaVal,
-        nomor: nomorVal,
-        totalBayar
-      }, {merge:true});
-      kasData[idx].id = docId;
-      console.log('Created doc', docId);
-    }
-  } catch(err){
-    console.error('Gagal simpan checkbox ke server:', err);
-    // revert jika gagal
-    kasData[idx].minggu[mIdx] = !checked;
-    checkbox.checked = !checked;
-    alert('Gagal menyimpan perubahan. Lihat console untuk error.');
-  } finally {
-    checkbox.disabled = false;
-    renderKas();
-  }
-});
-
-
-
-
-      cell.appendChild(checkbox);
-      rowElement.appendChild(cell);
-
-      if(paid) total += PAYMENT_PER_WEEK;
-    });
-
-    const totalCell = document.createElement('td');
-    totalCell.textContent = `Rp ${total.toLocaleString()}`;
-    rowElement.appendChild(totalCell);
-
-    kasList.appendChild(rowElement);
-  });
-
-  renderRiwayatKas();
-}
-
-// --- Riwayat Kas ---
-const kasUsageForm = document.getElementById('kas-usage-form');
-const riwayatKas = document.getElementById('riwayat-kas');
-
-kasUsageForm.addEventListener('submit', async (e)=>{
-  e.preventDefault();
-  const tanggal = document.getElementById('kas-tanggal').value;
-  const deskripsi = document.getElementById('kas-deskripsi').value;
-  const jumlah = Number(document.getElementById('kas-jumlah').value) || 0;
-  const kasBaru = {tanggal, deskripsi, jumlah};
-  try {
-    const id = await tambahRiwayatKasFirebase(kasBaru);
-    kasBaru.id = id;
-    kasUsage.unshift(kasBaru);
-    kasUsageForm.reset();
-    renderRiwayatKas();
-  } catch(err){
-    console.error(err);
-    alert('Gagal menyimpan riwayat kas. Cek console.');
-  }
-});
-
-function renderRiwayatKas(){
-  riwayatKas.innerHTML = '';
-  let saldo = getTotalKas();
-
-  // Masuk (total kas dibayar)
-  const masukRow = document.createElement('tr');
-  masukRow.innerHTML = `<td>-</td><td>Masuk</td><td>Total Kas Dibayar</td><td>Rp ${getTotalKas().toLocaleString()}</td><td>Rp ${saldo.toLocaleString()}</td><td></td>`;
-  riwayatKas.appendChild(masukRow);
-
-  if(!kasUsage || kasUsage.length === 0){
-    const tr = document.createElement('tr');
-    tr.innerHTML = `<td colspan="6">Belum ada riwayat pemakaian kas.</td>`;
-    riwayatKas.appendChild(tr);
-    return;
-  }
-
-  kasUsage.forEach((u, idx) => {
-    saldo -= u.jumlah;
-    const row = document.createElement('tr');
-    row.innerHTML = `
-      <td>${u.tanggal || '-'}</td>
-      <td>Terpakai</td>
-      <td>${u.deskripsi || '-'}</td>
-      <td>Rp ${Number(u.jumlah).toLocaleString()}</td>
-      <td>Rp ${saldo.toLocaleString()}</td>
-      <td><button class="delete-btn" data-id="${u.id || ''}" data-idx="${idx}">Hapus</button></td>
-    `;
-    const btn = row.querySelector('.delete-btn');
-    btn.addEventListener('click', async ()=>{
-      const id = btn.getAttribute('data-id');
-      const index = Number(btn.getAttribute('data-idx'));
-      if(id){
-        if(confirm('Hapus riwayat pemakaian kas ini?')){
-          try {
-            await hapusRiwayatKasFirebase(id);
-            kasUsage.splice(index,1);
-            renderRiwayatKas();
-          } catch(err){
-            console.error(err);
-            alert('Gagal menghapus dari server. Cek console.');
-          }
+        const totalWeeks = Object.values(sabtu2025).flat().length;
+        for (let i = 1; i <= 38; i++) {
+          const docId = `anggota_${i}`;
+          await setDoc(doc(db, "kas2025", docId), {
+            nama: `Anggota ${i}`,
+            nomor: i,
+            minggu: Array(totalWeeks).fill(false),
+            totalBayar: 0
+          });
         }
+        alert("38 anggota berhasil dibuat!");
+        location.reload();
+      } catch (e) {
+        console.error("Error generate anggota: ", e);
+        alert("Error: " + e.message);
+      }
+    };
+
+    // Constants
+    const sabtu2025 = {
+      "April": [5, 12, 19, 26],
+      "Mei": [3, 10, 17, 24, 31],
+      "Juni": [7, 14, 21, 28],
+      "Juli": [5, 12, 19, 26],
+      "Agustus": [2, 9, 16, 23, 30],
+      "September": [6, 13, 20, 27],
+      "Oktober": [4, 11, 18, 25],
+      "November": [1, 8, 15, 22, 29],
+      "Desember": [6, 13, 20, 27]
+    };
+
+    const totalWeeks = Object.values(sabtu2025).flat().length;
+    const PAYMENT_PER_WEEK = 1000;
+
+    const defaultKas = Array.from({ length: 38 }, (_, i) => ({
+      nama: `Anggota ${i + 1}`,
+      minggu: Array(totalWeeks).fill(false)
+    }));
+
+    // Firebase CRUD Functions
+    async function tambahTransaksiFirebase(transaksi) {
+      try {
+        const data = { ...transaksi, createdAt: new Date().toISOString() };
+        const docRef = await addDoc(collection(db, "transactions"), data);
+        return docRef.id;
+      } catch (err) {
+        console.error("tambahTransaksiFirebase:", err);
+        throw err;
+      }
+    }
+
+    async function loadTransaksiFirebase() {
+      try {
+        const q = query(collection(db, "transactions"), orderBy("createdAt", "desc"));
+        const snapshot = await getDocs(q);
+        return snapshot.docs.map(d => {
+          const data = d.data() || {};
+          return {
+            id: d.id,
+            deskripsi: data.deskripsi || '',
+            jumlah: (typeof data.jumlah === 'string') ? parseFloat(data.jumlah) : (data.jumlah || 0),
+            kategori: data.kategori || '',
+            bulan: data.bulan || '',
+            tanggal: data.tanggal || '',
+            createdAt: data.createdAt || ''
+          };
+        });
+      } catch (err) {
+        console.error("loadTransaksiFirebase:", err);
+        return [];
+      }
+    }
+
+    async function hapusTransaksiFirebase(id) {
+      try {
+        await deleteDoc(doc(db, "transactions", id));
+      } catch (err) {
+        console.error("hapusTransaksiFirebase:", err);
+        throw err;
+      }
+    }
+
+    async function loadKasFirebase() {
+      try {
+        const q = query(collection(db, "kas2025"), orderBy("nomor", "asc"));
+        const snapshot = await getDocs(q);
+        if (snapshot.empty) {
+          return [];
+        }
+        return snapshot.docs.map((d, index) => {
+          const data = d.data() || {};
+          const mingguArr = Array.isArray(data.minggu)
+            ? data.minggu.map(v => !!v)
+            : Array(totalWeeks).fill(false);
+
+          return {
+            id: d.id,
+            nomor: data.nomor || (index + 1),
+            nama: data.nama || `Anggota ${index + 1}`,
+            minggu: mingguArr,
+            totalBayar: typeof data.totalBayar === "number"
+              ? data.totalBayar
+              : mingguArr.filter(Boolean).length * PAYMENT_PER_WEEK
+          };
+        });
+      } catch (err) {
+        console.error("loadKasFirebase:", err);
+        return [];
+      }
+    }
+
+    async function updateKasFirebase(id, minggu, nama, nomor) {
+      try {
+        const mingguFix = Array.isArray(minggu) ? minggu.map(v => !!v) : Array(totalWeeks).fill(false);
+        const totalBayar = mingguFix.filter(Boolean).length * PAYMENT_PER_WEEK;
+        await setDoc(doc(db, "kas2025", id), {
+          minggu: mingguFix,
+          totalBayar,
+          nama,
+          nomor
+        });
+        console.log("updateKasFirebase: updated", id, { minggu: mingguFix, totalBayar, nama, nomor });
+      } catch (err) {
+        console.error("updateKasFirebase gagal:", err);
+        throw err;
+      }
+    }
+
+    async function updateNamaKasFirebase(id, nama) {
+      try {
+        await setDoc(doc(db, "kas2025", id), { nama }, { merge: true });
+      } catch (err) {
+        console.error("updateNamaKasFirebase:", err);
+        throw err;
+      }
+    }
+
+    async function tambahRiwayatKasFirebase(kas) {
+      try {
+        const docRef = await addDoc(collection(db, "riwayatKas"), {
+          ...kas,
+          createdAt: new Date().toISOString()
+        });
+        return docRef.id;
+      } catch (err) {
+        console.error("tambahRiwayatKasFirebase:", err);
+        throw err;
+      }
+    }
+
+    async function loadRiwayatKasFirebase() {
+      try {
+        const q = query(collection(db, "riwayatKas"), orderBy("createdAt", "asc"));
+        const snapshot = await getDocs(q);
+        return snapshot.docs.map(d => {
+          const data = d.data() || {};
+          return {
+            id: d.id,
+            tanggal: data.tanggal || '',
+            deskripsi: data.deskripsi || '',
+            jumlah: (typeof data.jumlah === 'string') ? parseFloat(data.jumlah) : (data.jumlah || 0),
+            createdAt: data.createdAt || ''
+          };
+        });
+      } catch (err) {
+        console.error("loadRiwayatKasFirebase:", err);
+        return [];
+      }
+    }
+
+    async function hapusRiwayatKasFirebase(id) {
+      try {
+        await deleteDoc(doc(db, "riwayatKas", id));
+      } catch (err) {
+        console.error("hapusRiwayatKasFirebase:", err);
+        throw err;
+      }
+    }
+
+    // DOM Elements
+    const transactionForm = document.getElementById('transaction-form');
+    const transactionList = document.getElementById('transaction-list');
+    const totalPemasukan = document.getElementById('total-pemasukan');
+    const totalPengeluaran = document.getElementById('total-pengeluaran');
+    const totalPeminjaman = document.getElementById('total-peminjaman');
+    const saldoAkhir = document.getElementById('saldo-akhir');
+    const saldoUangKas = document.getElementById('saldo-uang-kas');
+    const kasHeader = document.getElementById('kas-header');
+    const kasList = document.getElementById('kas-list');
+    const kasUsageForm = document.getElementById('kas-usage-form');
+    const riwayatKas = document.getElementById('riwayat-kas');
+
+    // App State
+    let transactions = [];
+    let kasData = [];
+    let kasUsage = [];
+
+    // Utility Functions
+    function getTotalKas() {
+      let total = 0;
+      kasData.forEach(a => {
+        if (Array.isArray(a.minggu)) {
+          a.minggu.forEach(p => { if (p) total += PAYMENT_PER_WEEK; });
+        }
+      });
+      return total;
+    }
+
+    // Render Functions
+    function renderTransactions() {
+      transactionList.innerHTML = '';
+
+      if (!transactions || transactions.length === 0) {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td colspan="6">Belum ada transaksi.</td>`;
+        transactionList.appendChild(tr);
       } else {
-        kasUsage.splice(index,1);
-        renderRiwayatKas();
+        let pemasukan = 0, pengeluaran = 0, peminjaman = 0;
+        transactions.forEach(t => {
+          const row = document.createElement('tr');
+          const jumlahNum = Number(t.jumlah) || 0;
+          row.innerHTML = `
+            <td>${t.bulan || '-'}</td>
+            <td>${t.tanggal || '-'}</td>
+            <td>${t.deskripsi || '-'}</td>
+            <td>${t.kategori || '-'}</td>
+            <td>Rp ${jumlahNum.toLocaleString()}</td>
+            <td><button class="delete-btn" data-id="${t.id || ''}">Hapus</button></td>
+          `;
+          const btn = row.querySelector('.delete-btn');
+          btn.addEventListener('click', async () => {
+            const id = btn.getAttribute('data-id');
+            if (!id) {
+              const idx = transactions.indexOf(t);
+              if (idx > -1) transactions.splice(idx, 1);
+              renderTransactions();
+              return;
+            }
+            if (confirm('Hapus transaksi ini?')) {
+              await deleteTransactionById(id);
+            }
+          });
+          transactionList.appendChild(row);
+
+          if (t.kategori === "pemasukan") pemasukan += jumlahNum;
+          if (t.kategori === "pengeluaran") pengeluaran += jumlahNum;
+          if (t.kategori === "peminjaman") peminjaman += jumlahNum;
+        });
+
+        totalPemasukan.textContent = `Rp ${pemasukan.toLocaleString()}`;
+        totalPengeluaran.textContent = `Rp ${pengeluaran.toLocaleString()}`;
+        totalPeminjaman.textContent = `Rp ${peminjaman.toLocaleString()}`;
+        saldoAkhir.textContent = `Rp ${(pemasukan - pengeluaran - peminjaman).toLocaleString()}`;
       }
-    });
-    riwayatKas.appendChild(row);
-  });
-}
 
-// --- Form transaksi ---
-transactionForm.addEventListener('submit', async (e)=>{
-  e.preventDefault();
-  const deskripsi = document.getElementById('deskripsi').value.trim();
-  const jumlah = Number(document.getElementById('jumlah').value) || 0;
-  const kategori = document.getElementById('kategori').value;
-  const bulan = document.getElementById('bulan-transaksi').value;
-  const tanggal = document.getElementById('tanggal').value;
-
-  const transaksiBaru = {deskripsi, jumlah, kategori, bulan, tanggal};
-  try {
-    const id = await tambahTransaksiFirebase(transaksiBaru);
-    transaksiBaru.id = id;
-    transactions.unshift(transaksiBaru);
-    renderTransactions();
-    transactionForm.reset();
-  } catch(err){
-    console.error(err);
-    alert('Gagal menyimpan transaksi. Cek console.');
-  }
-});
-
-// --- Init App (await semua load lalu render) ---
-async function initApp(){
-  try {
-    const loadedKas = await loadKasFirebase();
-
-    if(loadedKas.length === 0){
-      // hanya bikin default kalau benar-benar kosong
-      kasData = defaultKas.map((k, i)=>({
-        id: `anggota_${i+1}`,
-        nomor: i+1,
-        nama: `Anggota ${i+1}`,
-        minggu: Array(totalWeeks).fill(false),
-        totalBayar: 0
-      }));
-
-      for(const k of kasData){
-        await setDoc(doc(db,"kas2025", k.id), k, { merge: true });
-      }
-    } else {
-      // gunakan data yang sudah ada dari server, dengan fallback nomor/minggu
-      kasData = loadedKas.map((k,i)=>({
-        ...k,
-        nomor: k.nomor || (i+1),
-        minggu: Array.isArray(k.minggu) ? k.minggu.map(v => !!v) : Array(totalWeeks).fill(false),
-        totalBayar: typeof k.totalBayar === "number"
-                    ? k.totalBayar
-                    : (Array.isArray(k.minggu) ? k.minggu.filter(Boolean).length : 0) * PAYMENT_PER_WEEK
-      }));
+      saldoUangKas.textContent = `Rp ${getTotalKas().toLocaleString()}`;
+      renderRekapBulanan();
     }
 
-    // transaksi & riwayat kas
-    transactions = await loadTransaksiFirebase();
-    kasUsage = await loadRiwayatKasFirebase();
+    async function deleteTransactionById(id) {
+      try {
+        await hapusTransaksiFirebase(id);
+      } catch (err) {
+        console.error(err);
+        alert('Gagal menghapus transaksi di server. Cek console.');
+      }
+      const idx = transactions.findIndex(t => t.id === id);
+      if (idx > -1) transactions.splice(idx, 1);
+      renderTransactions();
+    }
 
-    // render setelah semua data ada
-    renderKas();
-    renderTransactions();
+    function renderRekapBulanan() {
+      const container = document.getElementById('rekap-bulanan');
+      container.innerHTML = '';
+      let saldo = 0;
+      const bulanListFull = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
 
-  } catch(err){
-    console.error("initApp error:", err);
-    alert('Terjadi error saat inisialisasi. Cek console untuk detail.');
-  }
-}
+      bulanListFull.forEach(bulan => {
+        const table = document.createElement('table');
+        table.style.marginBottom = '10px';
+        table.innerHTML = `
+          <thead>
+            <tr><th colspan="5">${bulan}</th></tr>
+            <tr>
+              <th>Tanggal</th><th>Deskripsi</th><th>Kategori</th><th>Jumlah (Rp)</th><th>Saldo Akhir</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        `;
+        const tbody = table.querySelector('tbody');
+        const transBulan = transactions.filter(t => t.bulan === bulan).sort((a, b) => new Date(a.tanggal) - new Date(b.tanggal));
 
-// panggil initApp
-initApp();
+        if (transBulan.length === 0) {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `<td colspan="5">Tidak ada transaksi.</td>`;
+          tbody.appendChild(tr);
+        } else {
+          transBulan.forEach(t => {
+            const jumlahNum = Number(t.jumlah) || 0;
+            if (t.kategori === 'pemasukan') saldo += jumlahNum;
+            if (t.kategori === 'pengeluaran') saldo -= jumlahNum;
+            if (t.kategori === 'peminjaman') saldo -= jumlahNum;
+            const row = document.createElement('tr');
+            row.innerHTML = `
+              <td>${t.tanggal || '-'}</td>
+              <td>${t.deskripsi || '-'}</td>
+              <td>${t.kategori || '-'}</td>
+              <td>Rp ${jumlahNum.toLocaleString()}</td>
+              <td>Rp ${saldo.toLocaleString()}</td>
+            `;
+            tbody.appendChild(row);
+          });
+        }
+        container.appendChild(table);
+      });
+    }
 
-</script>
+    function buildKasHeader() {
+      let headerRow = '<tr><th>Nama</th>';
+      Object.keys(sabtu2025).forEach(b => sabtu2025[b].forEach(tgl => headerRow += `<th>${b} ${tgl}</th>`));
+      headerRow += '<th>Total Bayar (Rp)</th></tr>';
+      kasHeader.innerHTML = headerRow;
+    }
 
+    function renderKas() {
+      kasList.innerHTML = '';
+      buildKasHeader();
+
+      if (!kasData || kasData.length === 0) {
+        defaultKas.forEach((anggota, idx) => {
+          const rowElement = document.createElement('tr');
+          rowElement.innerHTML = `<td>${anggota.nama}</td>` + anggota.minggu.map(() => `<td><input type="checkbox" disabled></td>`).join('') + `<td>Rp 0</td>`;
+          kasList.appendChild(rowElement);
+        });
+        return;
+      }
+
+      kasData.forEach((anggota, idx) => {
+        const rowElement = document.createElement('tr');
+
+        // Editable Name Cell
+        const namaCell = document.createElement('td');
+        namaCell.textContent = anggota.nama || `Anggota ${idx + 1}`;
+        namaCell.style.cursor = "pointer";
+        namaCell.style.color = "#0066cc";
+        namaCell.style.textDecoration = "underline";
+        namaCell.addEventListener('click', async () => {
+          const namaBaru = prompt("Masukkan nama baru:", anggota.nama);
+          if (namaBaru && namaBaru.trim() !== "") {
+            anggota.nama = namaBaru.trim();
+            if (anggota.id) {
+              try {
+                await updateNamaKasFirebase(anggota.id, anggota.nama);
+              } catch (err) {
+                console.error(err);
+                alert('Gagal menyimpan nama ke server. Cek console.');
+              }
+            }
+            renderKas();
+          }
+        });
+        rowElement.appendChild(namaCell);
+
+        // Checkbox per minggu
+        let total = 0;
+        const mingguArr = Array.isArray(anggota.minggu) ? anggota.minggu : Array(totalWeeks).fill(false);
+        mingguArr.forEach((paid, mIdx) => {
+          const cell = document.createElement('td');
+          const checkbox = document.createElement('input');
+          checkbox.type = 'checkbox';
+          checkbox.checked = !!paid;
+
+          checkbox.addEventListener('change', async (e) => {
+            const checked = !!e.target.checked;
+            kasData[idx].minggu[mIdx] = checked;
+            checkbox.disabled = true;
+
+            try {
+              const mingguFix = kasData[idx].minggu.map(v => !!v);
+              const nomorVal = kasData[idx].nomor || (idx + 1);
+              const namaVal = kasData[idx].nama || `Anggota ${nomorVal}`;
+              const totalBayar = mingguFix.filter(Boolean).length * PAYMENT_PER_WEEK;
+
+              if (kasData[idx].id) {
+                await updateKasFirebase(kasData[idx].id, mingguFix, namaVal, nomorVal);
+              } else {
+                const docId = `anggota_${nomorVal}`;
+                await setDoc(doc(db, "kas2025", docId), {
+                  minggu: mingguFix,
+                  nama: namaVal,
+                  nomor: nomorVal,
+                  totalBayar
+                }, { merge: true });
+                kasData[idx].id = docId;
+              }
+            } catch (err) {
+              console.error('Gagal simpan checkbox ke server:', err);
+              kasData[idx].minggu[mIdx] = !checked;
+              checkbox.checked = !checked;
+              alert('Gagal menyimpan perubahan. Lihat console untuk error.');
+            } finally {
+              checkbox.disabled = false;
+              renderKas();
+            }
+          });
+
+          cell.appendChild(checkbox);
+          rowElement.appendChild(cell);
+          if (paid) total += PAYMENT_PER_WEEK;
+        });
+
+        const totalCell = document.createElement('td');
+        totalCell.textContent = `Rp ${total.toLocaleString()}`;
+        rowElement.appendChild(totalCell);
+        kasList.appendChild(rowElement);
+      });
+
+      renderRiwayatKas();
+    }
+
+    kasUsageForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const tanggal = document.getElementById('kas-tanggal').value;
+      const deskripsi = document.getElementById('kas-deskripsi').value;
+      const jumlah = Number(document.getElementById('kas-jumlah').value) || 0;
+      const kasBaru = { tanggal, deskripsi, jumlah };
+      try {
+        const id = await tambahRiwayatKasFirebase(kasBaru);
+        kasBaru.id = id;
+        kasUsage.unshift(kasBaru);
+        kasUsageForm.reset();
+        renderRiwayatKas();
+      } catch (err) {
+        console.error(err);
+        alert('Gagal menyimpan riwayat kas. Cek console.');
+      }
+    });
+
+    function renderRiwayatKas() {
+      riwayatKas.innerHTML = '';
+      let saldo = getTotalKas();
+
+      const masukRow = document.createElement('tr');
+      masukRow.innerHTML = `<td>-</td><td>Masuk</td><td>Total Kas Dibayar</td><td>Rp ${getTotalKas().toLocaleString()}</td><td>Rp ${saldo.toLocaleString()}</td><td></td>`;
+      riwayatKas.appendChild(masukRow);
+
+      if (!kasUsage || kasUsage.length === 0) {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td colspan="6">Belum ada riwayat pemakaian kas.</td>`;
+        riwayatKas.appendChild(tr);
+        return;
+      }
+
+      kasUsage.forEach((u, idx) => {
+        saldo -= u.jumlah;
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${u.tanggal || '-'}</td>
+          <td>Terpakai</td>
+          <td>${u.deskripsi || '-'}</td>
+          <td>Rp ${Number(u.jumlah).toLocaleString()}</td>
+          <td>Rp ${saldo.toLocaleString()}</td>
+          <td><button class="delete-btn" data-id="${u.id || ''}" data-idx="${idx}">Hapus</button></td>
+        `;
+        const btn = row.querySelector('.delete-btn');
+        btn.addEventListener('click', async () => {
+          const id = btn.getAttribute('data-id');
+          const index = Number(btn.getAttribute('data-idx'));
+          if (id) {
+            if (confirm('Hapus riwayat pemakaian kas ini?')) {
+              try {
+                await hapusRiwayatKasFirebase(id);
+                kasUsage.splice(index, 1);
+                renderRiwayatKas();
+              } catch (err) {
+                console.error(err);
+                alert('Gagal menghapus dari server. Cek console.');
+              }
+            }
+          } else {
+            kasUsage.splice(index, 1);
+            renderRiwayatKas();
+          }
+        });
+        riwayatKas.appendChild(row);
+      });
+    }
+
+    transactionForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const deskripsi = document.getElementById('deskripsi').value.trim();
+      const jumlah = Number(document.getElementById('jumlah').value) || 0;
+      const kategori = document.getElementById('kategori').value;
+      const bulan = document.getElementById('bulan-transaksi').value;
+      const tanggal = document.getElementById('tanggal').value;
+
+      const transaksiBaru = { deskripsi, jumlah, kategori, bulan, tanggal };
+      try {
+        const id = await tambahTransaksiFirebase(transaksiBaru);
+        transaksiBaru.id = id;
+        transactions.unshift(transaksiBaru);
+        renderTransactions();
+        transactionForm.reset();
+      } catch (err) {
+        console.error(err);
+        alert('Gagal menyimpan transaksi. Cek console.');
+      }
+    });
+
+    // Initialize App
+    async function initApp() {
+      try {
+        const loadedKas = await loadKasFirebase();
+
+        if (loadedKas.length === 0) {
+          kasData = defaultKas.map((k, i) => ({
+            id: `anggota_${i + 1}`,
+            nomor: i + 1,
+            nama: `Anggota ${i + 1}`,
+            minggu: Array(totalWeeks).fill(false),
+            totalBayar: 0
+          }));
+
+          for (const k of kasData) {
+            await setDoc(doc(db, "kas2025", k.id), k, { merge: true });
+          }
+        } else {
+          kasData = loadedKas.map((k, i) => ({
+            ...k,
+            nomor: k.nomor || (i + 1),
+            minggu: Array.isArray(k.minggu) ? k.minggu.map(v => !!v) : Array(totalWeeks).fill(false),
+            totalBayar: typeof k.totalBayar === "number"
+              ? k.totalBayar
+              : (Array.isArray(k.minggu) ? k.minggu.filter(Boolean).length : 0) * PAYMENT_PER_WEEK
+          }));
+        }
+
+        transactions = await loadTransaksiFirebase();
+        kasUsage = await loadRiwayatKasFirebase();
+
+        renderKas();
+        renderTransactions();
+      } catch (err) {
+        console.error("initApp error:", err);
+        alert('Terjadi error saat inisialisasi. Cek console untuk detail.');
+      }
+    }
+
+    initApp();
+  </script>
 </body>
 </html>
-

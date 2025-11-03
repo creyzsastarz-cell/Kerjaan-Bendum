@@ -111,17 +111,24 @@
 
     /* Typography */
     h2 {
-      margin-top: 30px;
-      margin-bottom: 15px;
+      margin-top: 35px;
+      margin-bottom: 18px;
       color: var(--primary-color);
       font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+    }
+
+    h2:first-of-type {
+      margin-top: 0;
     }
 
     h3 {
-      margin-top: 20px;
-      margin-bottom: 10px;
+      margin-top: 25px;
+      margin-bottom: 12px;
       color: var(--primary-color);
       font-size: 18px;
+      font-weight: 600;
     }
 
     .muted {
@@ -134,18 +141,30 @@
     form {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 20px;
+      gap: 12px;
+      margin-bottom: 25px;
+      background: #f9f9f9;
+      padding: 20px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     }
 
     form input,
     form select {
-      padding: 10px;
+      padding: 12px;
       font-size: 14px;
       border: 1px solid var(--border-color);
-      border-radius: 5px;
+      border-radius: 6px;
       flex: 1;
       min-width: 150px;
+      background: white;
+      transition: var(--transition);
+    }
+
+    form input:hover,
+    form select:hover {
+      border-color: var(--secondary-color);
     }
 
     form button {
@@ -171,7 +190,9 @@
       overflow-x: auto;
       margin: 15px 0;
       border: 1px solid var(--border-color);
-      border-radius: 5px;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      background: white;
     }
 
     table {
@@ -179,6 +200,7 @@
       border-collapse: collapse;
       font-size: 13px;
       min-width: 600px;
+      background: white;
     }
 
     th,
@@ -215,6 +237,12 @@
       width: 20px;
       height: 20px;
       cursor: pointer;
+      accent-color: var(--secondary-color);
+      transform: scale(1.1);
+    }
+
+    input[type="checkbox"]:checked {
+      accent-color: var(--secondary-color);
     }
 
     /* Buttons */
@@ -288,6 +316,125 @@
 
     td[style*="cursor: pointer"]:hover {
       color: #0052a3;
+    }
+
+    /* Section Header with Button */
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid var(--border-color);
+    }
+
+    .section-header h2 {
+      margin: 0;
+      flex: 1;
+      min-width: 250px;
+    }
+
+    /* Export Button */
+    #export-excel-btn {
+      padding: 12px 24px;
+      background: var(--secondary-color);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      transition: var(--transition);
+      white-space: nowrap;
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    #export-excel-btn:hover {
+      background: #219150;
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    #export-excel-btn:active {
+      transform: translateY(0);
+    }
+
+    /* Better Table Styling */
+    table {
+      font-size: 13px;
+    }
+
+    thead th {
+      background: var(--primary-color);
+      color: white;
+      font-weight: 600;
+      padding: 12px 8px;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    tbody td {
+      padding: 10px 8px;
+      vertical-align: middle;
+    }
+
+    /* Form Improvements */
+    form input:focus,
+    form select:focus {
+      outline: none;
+      border-color: var(--secondary-color);
+      box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.1);
+    }
+
+    /* Card Improvements */
+    .card {
+      border: 1px solid var(--border-color);
+      background: white;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    .card:hover {
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .card h3 {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-light);
+      position: relative;
+      z-index: 1;
+    }
+
+    .card p {
+      font-size: 20px;
+      font-weight: 700;
+      margin-top: 8px;
+      position: relative;
+      z-index: 1;
     }
 
     /* Mobile Responsive */
@@ -429,10 +576,21 @@
         font-size: 11px;
       }
 
+      /* Section header mobile */
+      .section-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+      }
+
+      .section-header h2 {
+        font-size: 18px;
+      }
+
       /* Export button mobile */
       #export-excel-btn {
         width: 100%;
-        margin-top: 10px;
+        justify-content: center;
         font-size: 13px;
         padding: 12px;
       }
@@ -532,6 +690,142 @@
       alert("Password salah! Akses ditolak.");
       window.location.href = "https://google.com";
     }
+
+    // Source Code Protection
+    (function() {
+      'use strict';
+      
+      // Disable right-click context menu
+      document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        return false;
+      });
+
+      // Disable keyboard shortcuts
+      document.addEventListener('keydown', function(e) {
+        // Disable F12
+        if (e.key === 'F12') {
+          e.preventDefault();
+          return false;
+        }
+        // Disable Ctrl+Shift+I (Developer Tools)
+        if (e.ctrlKey && e.shiftKey && e.key === 'I') {
+          e.preventDefault();
+          return false;
+        }
+        // Disable Ctrl+Shift+J (Console)
+        if (e.ctrlKey && e.shiftKey && e.key === 'J') {
+          e.preventDefault();
+          return false;
+        }
+        // Disable Ctrl+Shift+C (Inspect Element)
+        if (e.ctrlKey && e.shiftKey && e.key === 'C') {
+          e.preventDefault();
+          return false;
+        }
+        // Disable Ctrl+U (View Source)
+        if (e.ctrlKey && e.key === 'u') {
+          e.preventDefault();
+          return false;
+        }
+        // Disable Ctrl+S (Save Page)
+        if (e.ctrlKey && e.key === 's') {
+          e.preventDefault();
+          return false;
+        }
+        // Disable Ctrl+P (Print)
+        if (e.ctrlKey && e.key === 'p') {
+          e.preventDefault();
+          return false;
+        }
+        // Disable Ctrl+A (Select All) - optional, bisa di-comment jika mengganggu
+        // if (e.ctrlKey && e.key === 'a') {
+        //   e.preventDefault();
+        //   return false;
+        // }
+      });
+
+      // Disable text selection (optional - bisa di-comment jika perlu select text)
+      // document.addEventListener('selectstart', function(e) {
+      //   e.preventDefault();
+      //   return false;
+      // });
+
+      // Disable drag
+      document.addEventListener('dragstart', function(e) {
+        e.preventDefault();
+        return false;
+      });
+
+      // Detect and prevent Developer Tools
+      let devtools = {open: false, orientation: null};
+      const threshold = 160;
+      setInterval(function() {
+        if (window.outerHeight - window.innerHeight > threshold || 
+            window.outerWidth - window.innerWidth > threshold) {
+          if (!devtools.open) {
+            devtools.open = true;
+            // Option 1: Redirect
+            // window.location.href = "about:blank";
+            
+            // Option 2: Show alert and blur
+            document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-size:24px;color:#e74c3c;"><h1>Akses Developer Tools tidak diizinkan!</h1></div>';
+            document.body.style.overflow = 'hidden';
+            
+            // Option 3: Just blur (uncomment line below and comment options above)
+            // document.body.style.filter = 'blur(10px)';
+          }
+        } else {
+          devtools.open = false;
+        }
+      }, 500);
+
+      // Override console methods first
+      const noop = () => {};
+      const originalMethods = {};
+      const methods = ['log', 'debug', 'info', 'warn', 'error', 'assert', 'dir', 'dirxml', 
+                      'group', 'groupEnd', 'time', 'timeEnd', 'count', 'trace', 'profile', 'profileEnd', 
+                      'table', 'clear', 'memory'];
+      
+      // Save original methods (for internal use if needed)
+      methods.forEach(method => {
+        if (console[method]) {
+          originalMethods[method] = console[method];
+          try {
+            console[method] = noop;
+          } catch(e) {}
+        }
+      });
+
+      // Override console.log with warning
+      try {
+        Object.defineProperty(console, 'log', {
+          value: function() {
+            // Silent - do nothing
+          },
+          writable: false,
+          configurable: false
+        });
+      } catch(e) {}
+
+      // Override console.clear
+      try {
+        Object.defineProperty(console, 'clear', {
+          value: noop,
+          writable: false,
+          configurable: false
+        });
+      } catch(e) {}
+
+      // Protect against view source
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'U' && e.ctrlKey) {
+          e.preventDefault();
+          return false;
+        }
+      }, false);
+
+    })();
   </script>
 
   <header>
@@ -594,25 +888,29 @@
 
     <!-- Summary Cards -->
     <div class="summary">
-      <div class="card">
-        <h3>Total Pemasukan</h3>
-        <p id="total-pemasukan">Rp 0</p>
+      <div class="card" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); color: white; border: 2px solid #11998e;">
+        <h3 style="color: rgba(255,255,255,0.9);">Total Pemasukan</h3>
+        <p id="total-pemasukan" style="color: white;">Rp 0</p>
       </div>
-      <div class="card">
-        <h3>Total Pengeluaran</h3>
-        <p id="total-pengeluaran">Rp 0</p>
+      <div class="card" style="background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%); color: white; border: 2px solid #eb3349;">
+        <h3 style="color: rgba(255,255,255,0.9);">Total Pengeluaran</h3>
+        <p id="total-pengeluaran" style="color: white;">Rp 0</p>
       </div>
-      <div class="card">
-        <h3>Total Peminjaman</h3>
-        <p id="total-peminjaman">Rp 0</p>
+      <div class="card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; border: 2px solid #f093fb;">
+        <h3 style="color: rgba(255,255,255,0.9);">Total Peminjaman</h3>
+        <p id="total-peminjaman" style="color: white;">Rp 0</p>
       </div>
-      <div class="card">
-        <h3>Saldo Akhir</h3>
-        <p id="saldo-akhir">Rp 0</p>
+      <div class="card" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; border: 2px solid #4facfe;">
+        <h3 style="color: rgba(255,255,255,0.9);">Saldo Akhir</h3>
+        <p id="saldo-akhir" style="color: white;">Rp 0</p>
       </div>
-      <div class="card">
-        <h3>Saldo Uang Kas</h3>
-        <p id="saldo-uang-kas">Rp 0</p>
+      <div class="card" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); color: white; border: 2px solid #43e97b;">
+        <h3 style="color: rgba(255,255,255,0.9);">Saldo Uang Kas</h3>
+        <p id="saldo-uang-kas" style="color: white;">Rp 0</p>
+      </div>
+      <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: 2px solid #667eea;">
+        <h3 style="color: rgba(255,255,255,0.9);">Total Saldo Sekarang</h3>
+        <p id="total-saldo-sekarang" style="color: white;">Rp 0</p>
       </div>
     </div>
 
@@ -621,12 +919,14 @@
     <div id="rekap-bulanan"></div>
 
     <!-- Pembayaran Uang Kas Mingguan -->
-    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 10px;">
-      <h2 style="margin: 0;">Pembayaran Uang Kas Mingguan (38 Orang, April - Desember 2025)</h2>
-      <button id="export-excel-btn" style="padding: 10px 20px; background: #27ae60; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 14px; transition: all 0.3s ease; white-space: nowrap; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" onmouseover="this.style.background='#219150'; this.style.transform='translateY(-1px)'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.15)'" onmouseout="this.style.background='#27ae60'; this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 4px rgba(0,0,0,0.1)'">
-        📥 Export ke Excel
+    <div class="section-header">
+      <h2>Pembayaran Uang Kas Mingguan</h2>
+      <button id="export-excel-btn">
+        <span>📥</span>
+        <span>Export ke Excel</span>
       </button>
     </div>
+    <p class="muted" style="margin-top: -15px; margin-bottom: 15px;">38 Orang, April - Desember 2025</p>
     <div class="table-wrapper">
       <table>
         <thead id="kas-header"></thead>
@@ -861,6 +1161,7 @@
     const totalPeminjaman = document.getElementById('total-peminjaman');
     const saldoAkhir = document.getElementById('saldo-akhir');
     const saldoUangKas = document.getElementById('saldo-uang-kas');
+    const totalSaldoSekarang = document.getElementById('total-saldo-sekarang');
     const kasHeader = document.getElementById('kas-header');
     const kasList = document.getElementById('kas-list');
     const kasUsageForm = document.getElementById('kas-usage-form');
@@ -891,6 +1192,41 @@
         });
       }
       return totalKas - totalPemakaian;
+    }
+
+    // Hitung saldo akhir berdasarkan urutan transaksi (running balance)
+    function getSaldoAkhirDariTransaksi() {
+      if (!transactions || transactions.length === 0) {
+        return 0;
+      }
+
+      // Urutkan transaksi berdasarkan bulan dan tanggal
+      const bulanUrutan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+      
+      const sortedTransactions = [...transactions].sort((a, b) => {
+        const bulanA = bulanUrutan.indexOf(a.bulan || '');
+        const bulanB = bulanUrutan.indexOf(b.bulan || '');
+        if (bulanA !== bulanB) {
+          return bulanA - bulanB;
+        }
+        // Jika bulan sama, urutkan berdasarkan tanggal
+        return new Date(a.tanggal || '1970-01-01') - new Date(b.tanggal || '1970-01-01');
+      });
+
+      // Hitung running balance
+      let saldo = 0;
+      sortedTransactions.forEach(t => {
+        const jumlahNum = Number(t.jumlah) || 0;
+        if (t.kategori === 'pemasukan') {
+          saldo += jumlahNum;
+        } else if (t.kategori === 'pengeluaran') {
+          saldo -= jumlahNum;
+        } else if (t.kategori === 'peminjaman') {
+          saldo -= jumlahNum;
+        }
+      });
+
+      return saldo;
     }
 
     // Export to Excel Function
@@ -1059,6 +1395,10 @@
         const tr = document.createElement('tr');
         tr.innerHTML = `<td colspan="6">Belum ada transaksi.</td>`;
         transactionList.appendChild(tr);
+        totalPemasukan.textContent = 'Rp 0';
+        totalPengeluaran.textContent = 'Rp 0';
+        totalPeminjaman.textContent = 'Rp 0';
+        saldoAkhir.textContent = 'Rp 0';
       } else {
         let pemasukan = 0, pengeluaran = 0, peminjaman = 0;
         transactions.forEach(t => {
@@ -1095,10 +1435,21 @@
         totalPemasukan.textContent = `Rp ${pemasukan.toLocaleString()}`;
         totalPengeluaran.textContent = `Rp ${pengeluaran.toLocaleString()}`;
         totalPeminjaman.textContent = `Rp ${peminjaman.toLocaleString()}`;
-        saldoAkhir.textContent = `Rp ${(pemasukan - pengeluaran - peminjaman).toLocaleString()}`;
+        
+        // Gunakan saldo akhir berdasarkan urutan transaksi (running balance)
+        const saldoAkhirValue = getSaldoAkhirDariTransaksi();
+        saldoAkhir.textContent = `Rp ${saldoAkhirValue.toLocaleString()}`;
       }
 
-      saldoUangKas.textContent = `Rp ${getSaldoAkhirKas().toLocaleString()}`;
+      // Update saldo uang kas
+      const saldoUangKasValue = getSaldoAkhirKas();
+      saldoUangKas.textContent = `Rp ${saldoUangKasValue.toLocaleString()}`;
+
+      // Hitung total saldo sekarang (saldo akhir + saldo uang kas)
+      const saldoAkhirFinal = getSaldoAkhirDariTransaksi();
+      const totalSaldo = saldoAkhirFinal + saldoUangKasValue;
+      totalSaldoSekarang.textContent = `Rp ${totalSaldo.toLocaleString()}`;
+
       renderRekapBulanan();
     }
 
@@ -1261,8 +1612,14 @@
       });
 
       renderRiwayatKas();
-      // Update saldo uang kas setelah render kas
-      saldoUangKas.textContent = `Rp ${getSaldoAkhirKas().toLocaleString()}`;
+      // Update saldo uang kas setelah render kas (renderRiwayatKas sudah update total saldo sekarang)
+      const saldoUangKasValue = getSaldoAkhirKas();
+      saldoUangKas.textContent = `Rp ${saldoUangKasValue.toLocaleString()}`;
+      
+      // Pastikan total saldo sekarang juga ter-update
+      const saldoAkhirValue = getSaldoAkhirDariTransaksi();
+      const totalSaldo = saldoAkhirValue + saldoUangKasValue;
+      totalSaldoSekarang.textContent = `Rp ${totalSaldo.toLocaleString()}`;
     }
 
     kasUsageForm.addEventListener('submit', async (e) => {
@@ -1296,7 +1653,12 @@
         tr.innerHTML = `<td colspan="6">Belum ada riwayat pemakaian kas.</td>`;
         riwayatKas.appendChild(tr);
         // Update saldo uang kas
-        saldoUangKas.textContent = `Rp ${getSaldoAkhirKas().toLocaleString()}`;
+        const saldoUangKasValue = getSaldoAkhirKas();
+        saldoUangKas.textContent = `Rp ${saldoUangKasValue.toLocaleString()}`;
+        // Update total saldo sekarang
+        const saldoAkhirValue = getSaldoAkhirDariTransaksi();
+        const totalSaldo = saldoAkhirValue + saldoUangKasValue;
+        totalSaldoSekarang.textContent = `Rp ${totalSaldo.toLocaleString()}`;
         return;
       }
 
@@ -1335,7 +1697,13 @@
       });
 
       // Update saldo uang kas setelah render riwayat
-      saldoUangKas.textContent = `Rp ${getSaldoAkhirKas().toLocaleString()}`;
+      const saldoUangKasValue = getSaldoAkhirKas();
+      saldoUangKas.textContent = `Rp ${saldoUangKasValue.toLocaleString()}`;
+      
+      // Update total saldo sekarang
+      const saldoAkhirValue = getSaldoAkhirDariTransaksi();
+      const totalSaldo = saldoAkhirValue + saldoUangKasValue;
+      totalSaldoSekarang.textContent = `Rp ${totalSaldo.toLocaleString()}`;
     }
 
     transactionForm.addEventListener('submit', async (e) => {

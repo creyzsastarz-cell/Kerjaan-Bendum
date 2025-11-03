@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet" />
+  <meta name="googlebot" content="noindex, nofollow" />
   <title>Aplikasi Bendahara Umum</title>
   <style>
     /* Reset & Base Styles */
@@ -691,140 +693,28 @@
       window.location.href = "https://google.com";
     }
 
-    // Source Code Protection
+    // Source Code Obfuscation - Menyembunyikan source code dari tab Sources
+    // Dev tools tetap bisa dibuka untuk debugging mobile
     (function() {
       'use strict';
       
-      // Disable right-click context menu
-      document.addEventListener('contextmenu', function(e) {
-        e.preventDefault();
-        return false;
-      });
-
-      // Disable keyboard shortcuts
+      // Disable Ctrl+U (View Source) - hanya ini yang di-disable agar source tidak mudah dilihat
       document.addEventListener('keydown', function(e) {
-        // Disable F12
-        if (e.key === 'F12') {
-          e.preventDefault();
-          return false;
-        }
-        // Disable Ctrl+Shift+I (Developer Tools)
-        if (e.ctrlKey && e.shiftKey && e.key === 'I') {
-          e.preventDefault();
-          return false;
-        }
-        // Disable Ctrl+Shift+J (Console)
-        if (e.ctrlKey && e.shiftKey && e.key === 'J') {
-          e.preventDefault();
-          return false;
-        }
-        // Disable Ctrl+Shift+C (Inspect Element)
-        if (e.ctrlKey && e.shiftKey && e.key === 'C') {
-          e.preventDefault();
-          return false;
-        }
-        // Disable Ctrl+U (View Source)
-        if (e.ctrlKey && e.key === 'u') {
-          e.preventDefault();
-          return false;
-        }
-        // Disable Ctrl+S (Save Page)
-        if (e.ctrlKey && e.key === 's') {
-          e.preventDefault();
-          return false;
-        }
-        // Disable Ctrl+P (Print)
-        if (e.ctrlKey && e.key === 'p') {
-          e.preventDefault();
-          return false;
-        }
-        // Disable Ctrl+A (Select All) - optional, bisa di-comment jika mengganggu
-        // if (e.ctrlKey && e.key === 'a') {
-        //   e.preventDefault();
-        //   return false;
-        // }
-      });
-
-      // Disable text selection (optional - bisa di-comment jika perlu select text)
-      // document.addEventListener('selectstart', function(e) {
-      //   e.preventDefault();
-      //   return false;
-      // });
-
-      // Disable drag
-      document.addEventListener('dragstart', function(e) {
-        e.preventDefault();
-        return false;
-      });
-
-      // Detect and prevent Developer Tools
-      let devtools = {open: false, orientation: null};
-      const threshold = 160;
-      setInterval(function() {
-        if (window.outerHeight - window.innerHeight > threshold || 
-            window.outerWidth - window.innerWidth > threshold) {
-          if (!devtools.open) {
-            devtools.open = true;
-            // Option 1: Redirect
-            // window.location.href = "about:blank";
-            
-            // Option 2: Show alert and blur
-            document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-size:24px;color:#e74c3c;"><h1>Akses Developer Tools tidak diizinkan!</h1></div>';
-            document.body.style.overflow = 'hidden';
-            
-            // Option 3: Just blur (uncomment line below and comment options above)
-            // document.body.style.filter = 'blur(10px)';
-          }
-        } else {
-          devtools.open = false;
-        }
-      }, 500);
-
-      // Override console methods first
-      const noop = () => {};
-      const originalMethods = {};
-      const methods = ['log', 'debug', 'info', 'warn', 'error', 'assert', 'dir', 'dirxml', 
-                      'group', 'groupEnd', 'time', 'timeEnd', 'count', 'trace', 'profile', 'profileEnd', 
-                      'table', 'clear', 'memory'];
-      
-      // Save original methods (for internal use if needed)
-      methods.forEach(method => {
-        if (console[method]) {
-          originalMethods[method] = console[method];
-          try {
-            console[method] = noop;
-          } catch(e) {}
-        }
-      });
-
-      // Override console.log with warning
-      try {
-        Object.defineProperty(console, 'log', {
-          value: function() {
-            // Silent - do nothing
-          },
-          writable: false,
-          configurable: false
-        });
-      } catch(e) {}
-
-      // Override console.clear
-      try {
-        Object.defineProperty(console, 'clear', {
-          value: noop,
-          writable: false,
-          configurable: false
-        });
-      } catch(e) {}
-
-      // Protect against view source
-      document.addEventListener('keydown', function(e) {
-        if (e.key === 'U' && e.ctrlKey) {
+        if (e.key === 'u' && e.ctrlKey) {
           e.preventDefault();
           return false;
         }
       }, false);
 
+      // Disable right-click context menu pada elemen tertentu untuk mengurangi inspect element
+      // Tapi tidak terlalu agresif agar tidak mengganggu UX
+      document.addEventListener('contextmenu', function(e) {
+        // Hanya disable jika klik pada elemen tertentu, tidak semua
+        if (e.target.tagName === 'SCRIPT' || e.target.tagName === 'STYLE') {
+          e.preventDefault();
+          return false;
+        }
+      }, false);
     })();
   </script>
 
